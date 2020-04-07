@@ -16,7 +16,7 @@ var storage = multer.diskStorage({
     cb(null, 'uploads')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now())
+    cb(null, file.originalname)
   }
 })
 
@@ -25,6 +25,7 @@ var upload = multer({ storage: storage })
 
 app.post('/uploadphoto', upload.single('myFile'), (req, res, next) => {
   const file = req.file
+  
   if (!file) {
     const error = new Error('Please upload a file')
     error.httpStatusCode = 400
